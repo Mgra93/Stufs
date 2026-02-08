@@ -1,0 +1,92 @@
+﻿@model ReservationDTO
+@using Microsoft.AspNetCore.Mvc.Localization
+@using RWAEvent.BL.Models.DTO.Reservation
+@inject IViewLocalizer Localizer
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card custom-card bg-dark bg-opacity-75 text-light p-4">
+
+                <h2 class="app-title mb-4 text-center">
+                    @Localizer["lblTitle"]
+                </h2>
+
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-md-4 text-center">
+                        @Html.LabelFor(m => m.Event.Title, new { @class = "form-label app-label" })
+                        <div class="app-text">@Model.Event.Title</div>
+                    </div>
+
+                    <div class="col-md-4 text-center">
+                        @Html.LabelFor(m => m.Event.EventType.Name, new { @class = "form-label app-label" })
+                        <div class="app-text">@Model.Event.EventType.Name</div>
+                    </div>
+
+                    <div class="col-md-4 text-center">
+                        @Html.LabelFor(m => m.TotalPrice, new { @class = "form-label app-label" })
+                        <span class="form-label app-label"> €</span>
+                        <div class="app-text">@Model.TotalPrice</div>
+                    </div>
+                </div>
+
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-md-4 text-center">
+                        @Html.LabelFor(m => m.TicketNumber, new { @class = "form-label app-label" })
+                        <div class="app-text">@Model.TicketNumber</div>
+                    </div>
+
+                    <div class="col-md-4 text-center">
+                        @Html.LabelFor(m => m.Event.Time, new { @class = "form-label app-label" })
+                        <div class="app-text">
+                            @Html.DisplayFor(m => m.Event.Time)
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 text-center">
+                        @Html.LabelFor(m => m.Status, new { @class = "form-label app-label" })
+                        <div>
+                            @switch (Model.Status)
+                            {
+                                case 0:
+                                    <span class="badge bg-success">@Localizer["statusActive"]</span>
+                                    break;
+                                case 1:
+                                    <span class="badge bg-danger">@Localizer["statusCanceled"]</span>
+                                    break;
+                                case 2:
+                                    <span class="badge bg-warning text-dark">@Localizer["statusDone"]</span>
+                                    break;
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4 justify-content-center">
+                    <div class="col-md-4 text-center">
+                        @Html.LabelFor(m => m.CreatedOn, new { @class = "form-label app-label" })
+                        <div class="app-text">
+                            @Html.DisplayFor(m => m.CreatedOn)
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 text-center">
+                        @Html.LabelFor(m => m.User.Username, new { @class = "form-label app-label" })
+                        <div class="app-text">@Model.User.Username</div>
+                    </div>
+
+                    <div class="col-md-4"></div>
+                </div>
+
+                <div class="d-flex justify-content-center mt-4">
+                    <a href="/Reservation/List"
+                       class="btn btn-danger d-flex align-items-center justify-content-center rounded-circle"
+                       style="width:40px;height:40px;padding:0;">
+                        <i class="bi bi-arrow-left text-white" style="font-size:1.5rem;"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

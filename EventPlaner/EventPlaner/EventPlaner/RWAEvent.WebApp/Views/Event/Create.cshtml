@@ -1,0 +1,117 @@
+﻿@model EventDTO
+@using Microsoft.AspNetCore.Mvc.Localization
+@using RWAEvent.BL.Models.DTO.Event
+@inject IViewLocalizer Localizer
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="app-title">@Localizer["lblTitle"]</h2>
+
+            @using (Html.BeginForm("Create", "Event", FormMethod.Post))
+            {
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.Title, new { @class = "form-label app-label" })
+                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger small" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.EventTypeId, new { @class = "form-label app-label" })
+                    @Html.DropDownListFor(m => m.EventTypeId, new SelectList(Model.EventTypeList, "Id", "Name", Model.EventTypeId), Localizer["lblSelectEventType"].Value, new { @class = "form-select" })
+                    @Html.ValidationMessageFor(m => m.EventTypeId, "", new { @class = "text-danger small" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.Price, new { @class = "form-label app-label" })
+                    @Html.TextBoxFor(m => m.Price, new { @class = "form-control", value = "0,00" })
+                    @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger small" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.Time, new { @class = "form-label app-label" })
+                    @Html.TextBoxFor(m => m.Time, "{0:yyyy-MM-ddTHH:mm}", new { @class = "form-control", type = "datetime-local" })
+                    @Html.ValidationMessageFor(m => m.Time, "", new { @class = "text-danger small" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.Location, new { @class = "form-label app-label" })
+                    @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger small" })
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label app-label">@Localizer["lblAddPerformer"]</label>
+
+                    <div class="input-group mb-2">
+                        <select id="performerSelect" class="form-select form-select-sm">
+                            <option value="">@Localizer["lblSelectPerformer"]</option>
+                            @foreach (var performer in Model.PerformerList)
+                            {
+                                <option value="@performer.Id">
+                                    @(string.IsNullOrWhiteSpace(performer.LastName) ? performer.Name : $"{performer.Name} {performer.LastName}")
+                                </option>
+                            }
+                        </select>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="addPerformer()">+</button>
+                    </div>
+
+                    @Html.LabelFor(m => m.SelectedPerformerIds, new { @class = "form-label app-label" })
+                    <ul id="selectedPerformers" class="list-group">
+                        @foreach (var id in Model.SelectedPerformerIds ?? new List<int>())
+                        {
+                            var performer = Model.PerformerList.FirstOrDefault(p => p.Id == id);
+                            if (performer != null)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center" data-id="@id">
+                                    @performer.Name
+                                    <button type="button" class="btn-close btn-close-sm" aria-label="Remove" onclick="removePerformer(@id)"></button>
+                                    <input type="hidden" name="SelectedPerformerIds[]" value="@id" />
+                                </li>
+                            }
+                        }
+                    </ul>
+                    @Html.ValidationMessageFor(m => m.SelectedPerformerIds, "", new { @class = "text-danger small" })
+                </div>
+
+                <div class="d-flex gap-2 mt-3">
+                    <button type="submit" class="btn btn-success flex-fill">
+                        @Localizer["btnSave"]
+                    </button>
+                    <a href="/Event/List" class="btn btn-danger flex-fill text-center d-flex align-items-center justify-content-center">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function addPerformer() {
+            const select = document.getElementById("performerSelect");
+            const selectedId = select.value;
+            const selectedText = select.options[select.selectedIndex].text;
+
+            if (!selectedId || document.querySelector(`#selectedPerformers li[data-id="${selectedId}"]`)) return;
+
+            const li = document.createElement("li");
+            li.className = "list-group-item d-flex justify-content-between align-items-center";
+            li.setAttribute("data-id", selectedId);
+            li.innerHTML = `
+                ${selectedText}
+                <button type="button" class="btn-close btn-close-sm" aria-label="Remove" onclick="removePerformer(${selectedId})"></button>
+                <input type="hidden" name="SelectedPerformerIds[]" value="${selectedId}" />
+            `;
+
+            document.getElementById("selectedPerformers").appendChild(li);
+            select.value = "";
+        }
+
+        function removePerformer(id) {
+            const item = document.querySelector(`#selectedPerformers li[data-id="${id}"]`);
+            if (item) item.remove();
+        }
+    </script>
+}

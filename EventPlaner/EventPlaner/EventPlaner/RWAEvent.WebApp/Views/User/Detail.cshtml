@@ -1,0 +1,195 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using RWAEvent.BL.Models.DTO.User
+@model UserDTO
+@inject IViewLocalizer Localizer
+
+@{
+    var currentUser = User.Identity.Name;
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <h2 class="app-title">@Localizer["lblTitle"]</h2>
+
+            <div class="mb-3">
+                @Html.LabelFor(m => m.FirstName, new { @class = "form-label app-label" })
+                <input type="text" id="firstName" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(m => m.LastName, new { @class = "form-label app-label" })
+                <input type="text" id="lastName" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(m => m.Email, new { @class = "form-label app-label" })
+                <input type="email" id="email" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(m => m.Phone, new { @class = "form-label app-label" })
+                <input type="text" id="phone" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <button type="button" id="changePasswordBtn" class="btn btn-warning btn-sm">
+                    @Localizer["btnChangePassword"]
+                </button>
+            </div>
+
+            <div id="passwordFields" style="display:none;">
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.OldPassword, new { @class = "form-label app-label" })
+                    <input type="password" id="oldPassword" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.NewPassword, new { @class = "form-label app-label" })
+                    <input type="password" id="newPassword" class="form-control" />
+                </div>
+            </div>
+
+            <div class="mb-3 text-danger" id="errorMsg" style="display:none;"></div>
+
+            <div class="d-flex gap-2 mt-3">
+                <button id="saveUserBtn" class="btn btn-success flex-fill">
+                    @Localizer["btnSave"]
+                </button>
+                <a href="/Event/List" class="btn btn-danger flex-fill">
+                    @Localizer["btnCancel"]
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert">
+        <div class="d-flex">
+            <div class="toast-body">
+                @Localizer["msgUserUpdated"]
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                    data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const messages = {
+            oldPasswordInvalid: '@Localizer["msgOldPasswordInvalid"]',
+            newPasswordInvalid: '@Localizer["msgNewPasswordInvalid"]',
+            saveFailed: '@Localizer["msgSaveFailed"]',
+            saveError: '@Localizer["msgSaveError"]'
+        };
+
+        document.getElementById("changePasswordBtn").addEventListener("click", function () {
+            const pf = document.getElementById("passwordFields");
+            pf.style.display = pf.style.display === "none" ? "block" : "none";
+        });
+
+        function loadUserData() {
+            const username = "@currentUser";
+
+            $.ajax({
+                url: '@Url.Action("Data", "User")',
+                type: 'GET',
+                data: { username: username },
+                success: function (data) {
+                    $("#firstName").val(data.firstName);
+                    $("#lastName").val(data.lastName);
+                    $("#email").val(data.email);
+                    $("#phone").val(data.phone);
+
+                    const saveBtn = $("#saveUserBtn")[0];
+                    saveBtn.dataset.userId = data.id;
+                    saveBtn.dataset.userRole = data.role;
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching user:", error);
+                }
+            });
+        }
+
+        async function saveUserData() {
+            const username = "@currentUser";
+            const saveBtn = document.getElementById("saveUserBtn");
+            const errorDiv = document.getElementById("errorMsg");
+            errorDiv.style.display = "none";
+
+            const changePassword = document.getElementById("passwordFields").style.display === "block";
+            const oldPassword = document.getElementById("oldPassword").value;
+            const newPassword = document.getElementById("newPassword").value;
+
+            if (changePassword) {
+                if (!oldPassword || oldPassword.length < 8) {
+                    errorDiv.innerText = messages.oldPasswordInvalid;
+                    errorDiv.style.display = "block";
+                    return;
+                }
+                if (!newPassword || newPassword.length < 8) {
+                    errorDiv.innerText = messages.newPasswordInvalid;
+                    errorDiv.style.display = "block";
+                    return;
+                }
+            }
+
+            const userDTO = {
+                id: saveBtn.dataset.userId,
+                username: username,
+                firstName: document.getElementById("firstName").value,
+                lastName: document.getElementById("lastName").value,
+                email: document.getElementById("email").value,
+                phone: document.getElementById("phone").value || null,
+                role: saveBtn.dataset.userRole,
+                changePassword: changePassword,
+                oldPassword: oldPassword,
+                newPassword: newPassword
+            };
+
+            try {
+                const res = await fetch('@Url.Action("Update", "User")', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(userDTO)
+                });
+
+                if (!res.ok) {
+                    const raw = await res.text();
+                    let msg = raw;
+
+                    try {
+                        const err = JSON.parse(raw);
+                        msg = Object.values(err)[0][0];
+                    } catch (e) {
+
+                    }
+
+                    errorDiv.innerText = msg;
+                    errorDiv.style.display = "block";
+                    return;
+                }
+
+                document.getElementById("oldPassword").value = "";
+                document.getElementById("newPassword").value = "";
+
+                const toast = new bootstrap.Toast(
+                    document.getElementById("successToast"),
+                    { delay: 3000 }
+                );
+                toast.show();
+
+            } catch (err) {
+                errorDiv.innerText = messages.saveError + " " + err.message;
+                errorDiv.style.display = "block";
+            }
+        }
+
+        $(document).ready(function () {
+            loadUserData();
+            document.getElementById("saveUserBtn").addEventListener("click", saveUserData);
+        });
+    </script>
+}

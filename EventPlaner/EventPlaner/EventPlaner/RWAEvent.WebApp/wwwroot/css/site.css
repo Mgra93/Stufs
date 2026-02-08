@@ -1,0 +1,143 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    padding-bottom: 60px;
+    background: url('/img/background.png') center/cover no-repeat fixed;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    padding: 5px 0;
+}
+
+.app-title {
+    color: #3a9ad9;
+    font-weight: bold;
+    text-align: center;
+}
+
+.app-label {
+    color: #3a9ad9;
+    font-weight: bold;
+}
+
+.app-text {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.card-label {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.card-title {
+    font-size: 1.3rem;
+    color: #006400;
+}
+
+.card-subtitle {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.card-body ul {
+    padding-left: 0;
+}
+
+.card-body ul li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+}
+
+.card.custom-card {
+    border: 1px solid #dee2e6;
+    border-radius: 1rem;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    overflow: hidden;
+}
+
+.card.custom-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+}    
+
+.ticket-input {
+    width: 75px !important;
+    padding: 2px 4px;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.performer-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0.5rem;
+    color: #333;
+    line-height: 1.5;
+}
+
+    .performer-list li {
+        padding-left: 0.3rem;
+    }
+
+.event-modal-dialog {
+    max-width: 430px;
+    width: 100%;
+    margin: auto;
+}
+
+
+.navbar-nav .nav-link.app-label {
+    color: #3a9ad9 !important;
+    font-weight: bold;
+}
+
+.navbar-brand.app-title {
+    color: #3a9ad9 !important;
+    font-weight: bold;
+}
+
+.landing-title {
+    color: #3a9ad9;
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.landing-text {
+    color: #3a9ad9;
+    font-size: 1.2rem;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-event {
+    font-weight: bold;
+    color: white !important;
+}
+
+.page-size-label {
+    color: white !important;
+}
+
+.validation-summary-errors ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}

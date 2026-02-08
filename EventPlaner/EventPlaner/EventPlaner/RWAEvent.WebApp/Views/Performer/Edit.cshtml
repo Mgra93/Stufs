@@ -1,0 +1,36 @@
+﻿@model PerformerDTO
+@using Microsoft.AspNetCore.Mvc.Localization
+@using RWAEvent.BL.Models.DTO
+@using RWAEvent.BL.Models.DTO.Performer
+@inject IViewLocalizer Localizer
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <h2 class="app-title">
+                @Localizer["lblTitle"]
+            </h2>
+            @using (Html.BeginForm("Edit", "Performer", FormMethod.Post))
+            {
+                @Html.HiddenFor(m => m.Id)
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.Name, new { @class = "form-label app-label" })
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.LastName, new { @class = "form-label app-label" })
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <button type="submit" class="btn btn-success">@Localizer["btnSave"]</button>
+                    <a href="@Url.Action("List", "Performer")" class="btn btn-danger">@Localizer["btnBack"]</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

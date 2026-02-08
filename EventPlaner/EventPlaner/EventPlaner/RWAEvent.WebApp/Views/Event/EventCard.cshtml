@@ -1,0 +1,87 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model RWAEvent.WebApp.ViewsModel.EventVM
+@inject IViewLocalizer Localizer
+
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+@if (!Model.Events.Any())
+{
+    <p class="text-center text-muted">@Localizer["lblNoResult"]</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var e in Model.Events)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm custom-card" style="cursor:pointer;"
+                     data-bs-toggle="modal" data-bs-target="#eventDetailModal"
+                     data-id="@e.Id"
+                     data-title="@e.Title"
+                     data-eventtype="@e.EventType?.Name"
+                     data-price="@e.Price"
+                     data-location="@e.Location"
+                     data-time="@e.Time.ToString("dd.MM.yyyy HH:mm")"
+                     data-performers='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(e.PerformerList))'>
+
+                    <div class="card-body">
+                        <h2 class="card-title mb-2">@e.Title</h2>
+                        <h5 class="card-label">@e.EventType?.Name</h5>
+                        <ul class="list-unstyled mb-3">
+                            <li>
+                                @Html.LabelFor(m => e.Price, new { @class = "app-label" })
+                                @Html.DisplayFor(m => e.Price) €
+                            </li>
+                            <li>
+                                @Html.LabelFor(m => e.Location, new { @class = "app-label" })
+                                @Html.DisplayFor(m => e.Location)
+                            </li>
+                            <li>
+                                @Html.LabelFor(m => e.Time, new { @class = "app-label" })
+                                @Html.DisplayFor(m => e.Time)
+                            </li>
+                        </ul>
+                    </div>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="card-footer text-end bg-light">
+                            <a asp-action="Edit" asp-route-id="@e.Id" class="btn btn-sm btn-primary">
+                                <i class="bi bi-pencil-square"></i> @Localizer["btnEdit"]
+                            </a>
+
+                            @using (Html.BeginForm("Delete", "Event", FormMethod.Post, new { style = "display:inline;" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@e.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger ms-2">
+                                    <i class="bi bi-trash"></i> @Localizer["btnDelete"]
+                                </button>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (Model.TotalPages > 1)
+    {
+        <nav aria-label="Event pagination" class="d-flex justify-content-center mt-4">
+            <ul class="pagination">
+                <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" href="#" data-page="@(Model.CurrentPage - 1)">&laquo;</a>
+                </li>
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="#" data-page="@i">@i</a>
+                    </li>
+                }
+                <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link" href="#" data-page="@(Model.CurrentPage + 1)">&raquo;</a>
+                </li>
+            </ul>
+        </nav>
+    }
+}

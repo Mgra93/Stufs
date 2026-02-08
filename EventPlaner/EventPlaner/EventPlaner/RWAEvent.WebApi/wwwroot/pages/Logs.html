@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log list</title>
+    <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Log list</h5>
+                <button class="btn btn-outline-secondary btn-sm" onclick="logout()">Logout</button>
+            </div>
+            <div class="card-body" id="logContainer">
+                <p class="text-center text-muted">Loading logs...</p>
+            </div>
+            <div class="card-footer d-flex justify-content-end align-items-center gap-2">
+                <select class="form-select form-select-sm" style="width: auto;" id="pageSize">
+                    <option value="10" selected>10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
+                <button class="btn btn-primary btn-sm" onclick="showLogs()">Show Logs</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function showLogs() {
+            const container = document.getElementById('logContainer');
+            container.innerHTML = '<p class="text-center text-muted">Loading logs...</p>';
+
+            const n = document.getElementById('pageSize').value;
+            const token = localStorage.getItem("jwtToken");
+
+            if (!token) {
+                window.location.href = "/pages/Login.html";
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/logs/get/${n}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                if (response.status === 401) {
+                    logout();
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const logList = await response.json();
+
+                if (!logList || logList.length === 0) {
+                    container.innerHTML = '<p class="text-center text-muted">No log entries available.</p>';
+                    return;
+                }
+
+                const ul = document.createElement('ul');
+                ul.className = 'list-unstyled';
+                logList.forEach(log => {
+                    const li = document.createElement('li');
+                    li.className = 'mb-2';
+                    li.innerHTML = `<span class="text-muted">${new Date(log.createdOn).toLocaleString('hr-HR', { hour12: false })}</span> -
+                                        <strong>Level ${log.level}:</strong> ${log.message}`;
+                    ul.appendChild(li);
+                });
+                container.innerHTML = '';
+                container.appendChild(ul);
+            } catch (err) {
+                container.innerHTML = `<p class="text-center text-danger">Error loading logs: ${err.message}</p>`;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("jwtToken");
+            window.location.href = "/pages/Login.html";
+        }
+
+        showLogs();
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in</title>
+    <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/lib/bootstrap/dist/icons/bootstrap-icons.css" rel="stylesheet">
+    <script src="/lib/jquery/dist/jquery.js"></script>
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center vh-100">
+    <div class="card shadow-lg" style="max-width: 400px; width: 100%;">
+        <div class="card-header text-center">
+            <h4 class="mb-0">Prijava</h4>
+        </div>
+        <div class="card-body">
+            <div id="alertBox"></div>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Korisničko ime</label>
+                    <input type="text" class="form-control" id="username" placeholder="Unesite korisničko ime..." required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Lozinka</label>
+                    <input type="password" class="form-control" id="password" placeholder="Unesite lozinku..." required>
+                </div>
+                <div class="d-flex gap-2 mt-3" style="min-width: 0;">
+                    <button type="submit" class="btn btn-success flex-fill">Prijava</button>
+                    <a href="/swagger/index.html" class="btn btn-danger flex-fill text-center d-flex align-items-center justify-content-center" style="font-size: 1.25rem;">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value;
+
+            if (password.length < 8) {
+                showAlert("Password must contain at least 8 characters.");
+                return;
+            }
+
+            try {
+                const res = await fetch("/api/auth/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (!res.ok) {
+                    const errorText = await res.text();
+                    showAlert(errorText || "Prijava neuspješna");
+                    return;
+                }
+
+                const token = await res.text();
+
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                console.log("Role: " + payload.role)
+                if (payload.role !== "1") {
+                    showAlert("Korisnik nema prava pristupa");
+                    return;
+                }
+
+                localStorage.setItem("jwtToken", token);
+                window.location.href = "/pages/Logs.html";
+            } catch (err) {
+                showAlert("Login error: " + err.message);
+            }
+        });
+
+        function showAlert(message) {
+            const alertBox = document.getElementById("alertBox");
+            alertBox.innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>`;
+        }
+    </script>
+</body>
+</html>

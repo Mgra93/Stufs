@@ -1,0 +1,135 @@
+﻿@model RWAEvent.WebApp.ViewsModel.ReservationEditVM
+@using Microsoft.AspNetCore.Mvc.Localization
+@using RWAEvent.BL.Models.Enums
+@inject IViewLocalizer Localizer
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+
+            <h2 class="app-title">@Localizer["lblTitle"]</h2>
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+            @using (Html.BeginForm("Edit", "Reservation", FormMethod.Post))
+            {
+                @Html.HiddenFor(m => m.Reservation.Id)
+                @Html.HiddenFor(m => m.Reservation.CreatedOn)
+                @Html.Hidden("CurrentEventId", Model.Reservation.EventId)
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.SelectedEventTypeId, new { @class = "form-label app-label" })
+                    @Html.DropDownListFor(
+                    m => m.SelectedEventTypeId,
+                                new SelectList(Model.EventTypeList, "Id", "Name", Model.SelectedEventTypeId),
+                                Localizer["ddlSelectEventType"].Value,
+                                new { @class = "form-select", id = "ddlEventType" }
+                                )
+                @Html.ValidationMessageFor(m => m.SelectedEventTypeId, "", new { @class = "text-danger small" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(m => m.Reservation.EventId, new { @class = "form-label app-label" })
+                <select id="ddlEvent" name="Reservation.EventId" class="form-select">
+                    <option value="">@Localizer["ddlSelectEvent"]</option>
+                    @if (Model.Reservation.EventId > 0)
+                        {
+                            <option value="@Model.Reservation.EventId" selected>
+                                @Model.Reservation.Event?.Title
+                            </option>
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(m => m.Reservation.EventId, "", new { @class = "text-danger small" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.Reservation.UserId, new { @class = "form-label app-label" })
+                    @Html.DropDownListFor(
+                    m => m.Reservation.UserId,
+                                new SelectList(Model.UserList, "Id", "Username", Model.Reservation.UserId),
+                                new { @class = "form-select" }
+                                )
+                @Html.ValidationMessageFor(m => m.Reservation.UserId, "", new { @class = "text-danger small" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(m => m.Reservation.TicketNumber, new { @class = "form-label app-label" })
+                @Html.TextBoxFor(
+                                m => m.Reservation.TicketNumber,
+                                new { @class = "form-control", type = "number", min = "1" }
+                                )
+                @Html.ValidationMessageFor(m => m.Reservation.TicketNumber, "", new { @class = "text-danger small" })
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(m => m.Reservation.Status, new { @class = "form-label app-label" })
+                @{
+                        var statusSelectList = new List<SelectListItem>
+                                {
+                                new SelectListItem {
+                                Value = "0",
+                                Text = Localizer["statusActive"].Value,
+                                Selected = Model.Reservation.Status == 0
+                                },
+                                new SelectListItem {
+                                Value = "1",
+                                Text =  Localizer["statusCanceled"].Value,
+                                Selected = Model.Reservation.Status == 1
+                                },
+                                new SelectListItem {
+                                Value = "2",
+                                Text = Localizer["statusDone"].Value,
+                                Selected = Model.Reservation.Status == 2
+                                }
+                                };
+                    }
+                    @Html.DropDownListFor(
+                    m => m.Reservation.Status,
+                                statusSelectList,
+                                new { @class = "form-select" }
+                                )
+                @Html.ValidationMessageFor(m => m.Reservation.Status, "", new { @class = "text-danger small" })
+            </div>
+
+            <div class="d-flex gap-2 mt-3">
+                <button type="submit" class="btn btn-success btn-lg w-100">
+                    @Localizer["btnSave"]
+                </button>
+                <a href="/Reservation/List" class="btn btn-danger btn-lg w-100 d-flex align-items-center justify-content-center">
+                    <i class="bi bi-arrow-left me-2"></i>
+                </a>
+            </div>
+                        }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ddlEventType = document.getElementById("ddlEventType");
+            const ddlEvent = document.getElementById("ddlEvent");
+            const currentEventId = "@Model.Reservation.EventId";
+
+            async function loadEvents(typeId) {
+                ddlEvent.innerHTML = '';
+                ddlEvent.add(new Option('@Localizer["ddlSelectEvent"].Value', ''));
+
+                if (!typeId) return;
+
+                const res = await fetch(`/Reservation/GetEventsByType?eventTypeId=${typeId}`);
+                const events = await res.json();
+
+                events.forEach(ev => {
+                    const option = new Option(ev.title, ev.id);
+                    if (ev.id == currentEventId) option.selected = true;
+                    ddlEvent.add(option);
+                });
+            }
+
+            ddlEventType.addEventListener("change", () => loadEvents(ddlEventType.value));
+            if (ddlEventType.value) {
+                loadEvents(ddlEventType.value);
+            }
+        });
+    </script>
+}

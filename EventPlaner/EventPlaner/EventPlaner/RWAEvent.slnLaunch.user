@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "MVC and API",
+    "Projects": [
+      {
+        "Path": "RWAEvent.WebApp\\RWAEvent.WebApp.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "RWAEvent.WebApi\\RWAEvent.WebApi.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

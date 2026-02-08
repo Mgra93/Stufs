@@ -1,0 +1,135 @@
+﻿@using RWAEvent.BL.Models.DTO
+@using RWAEvent.BL.Models.DTO.Reservation
+@using RWAEvent.BL.Models.DTO.User
+@using RWAEvent.BL.Models.Enums
+@model RWAEvent.WebApp.ViewsModel.UserVM
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    var tempUser = new UserDTO();
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <h2 class="app-title">
+                @Localizer["lblTitle"]
+            </h2>
+
+            @using (Html.BeginForm("List", "User", FormMethod.Post))
+            {
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.Filter.Search, Localizer["filSearch"].Value, new { @class = "form-label app-label" })
+                        @Html.TextBoxFor(m => m.Filter.Search, new { @class = "form-control", placeholder = Localizer["lblSearchPlaceholder"].Value })
+                    </div>
+
+                    <div class="col-md-9 d-flex justify-content-end align-items-end gap-2">
+                        <button type="submit"
+                                class="btn btn-warning d-flex align-items-center justify-content-center px-3"
+                                style="height: 38px; min-width: 110px;">
+                            <i class="bi bi-funnel-fill me-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-12 d-flex justify-content-end text-end">
+                        <span class="me-2 page-size-label">@Localizer["lblShow"]</span>
+                        @foreach (var size in new[] { 10, 25, 50 })
+                        {
+                            if (Model.Filter.PageSize == size)
+                            {
+                                <span class="fw-bold text-decoration-underline me-2 page-size-label">@size</span>
+                            }
+                            else
+                            {
+                                <a class="me-2 page-size-link" href="@Url.Action("List", new { page = 1, search = Model.Filter.Search, pageSize = size })">@size</a>
+                            }
+                        }
+                        <span class="page-size-label">@Localizer["lblItems"]</span>
+                    </div>
+                </div>
+            }
+
+            <div class="mt-4"></div>
+
+            <div style="max-height: 400px; overflow-y: auto;">
+                <table class="table table-striped table-bordered text-center bg-white">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="w-40">@Html.LabelFor(m => tempUser.Username, new { @class = "form-label app-label" })</th>
+                            <th class="w-40">@Html.LabelFor(m => tempUser.FirstName, new { @class = "form-label app-label" })</th>
+                            <th class="w-40">@Html.LabelFor(m => tempUser.LastName, new { @class = "form-label app-label" })</th>
+                            <th class="w-40">@Html.LabelFor(m => tempUser.Email, new { @class = "form-label app-label" })</th>
+                            <th class="w-40">@Html.LabelFor(m => tempUser.Phone, new { @class = "form-label app-label" })</th>
+                            <th class="w-40">@Html.LabelFor(m => tempUser.Role, new { @class = "form-label app-label" })</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Users)
+                        {
+                            <tr style="cursor:pointer;">
+                                <td>@Html.DisplayFor(res => item.Username)</td>
+                                <td>@Html.DisplayFor(res => item.FirstName)</td>
+                                <td>@Html.DisplayFor(res => item.LastName)</td>
+                                <td>@Html.DisplayFor(res => item.Email)</td>
+                                <td>@Html.DisplayFor(res => item.Phone)</td>
+                                <td>
+                                    @switch (item.Role)
+                                    {
+                                        case 0:
+                                            <span class="badge bg-success">@Localizer["roleUser"]</span>
+                                            break;
+                                        case 1:
+                                            <span class="badge bg-warning">@Localizer["roleAdmin"]</span>
+                                            break;
+                                        case 2:
+                                            <span class="badge bg-success">@Localizer["roleUser"]</span>
+                                            break;
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div>
+                    @Html.ValidationMessageFor(m => m.CurrentPage, "", new { @class = "text-danger small" })
+                    @Html.ValidationMessageFor(m => m.TotalPages, "", new { @class = "text-danger small" })
+                    @Html.ValidationMessageFor(m => m.Filter, "", new { @class = "text-danger small" })
+                    @Html.ValidationMessageFor(m => m.Users, "", new { @class = "text-danger small" })
+
+                </div>
+            </div>
+
+            @if (Model.TotalPages > 0)
+            {
+                <nav class="mt-4 d-flex justify-content-center" aria-label="Performer pagination">
+                    <ul class="pagination">
+                        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                            <a class="page-link"
+                               href="@Url.Action("List", new { page = Model.CurrentPage - 1, search = Model.Filter.Search })">
+                                &laquo;
+                            </a>
+                        </li>
+
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                                <a class="page-link"
+                                   href="@Url.Action("List", new { page = i, search = Model.Filter.Search })">@i</a>
+                            </li>
+                        }
+
+                        <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                            <a class="page-link"
+                               href="@Url.Action("List", new { page = Model.CurrentPage + 1, search = Model.Filter.Search })">
+                                &raquo;
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+</div>

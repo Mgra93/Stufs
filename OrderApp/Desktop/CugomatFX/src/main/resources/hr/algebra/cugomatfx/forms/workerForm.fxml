@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="hr.algebra.cugomatfx.controllers.WorkerFormController"
+            prefHeight="400.0" prefWidth="600.0">
+    <VBox spacing="10">
+        <padding>
+            <Insets top="15" right="15" bottom="15" left="15" />
+        </padding>
+        <Label fx:id="lblTitle" styleClass="lbl-title"/>
+        <VBox>
+            <Label fx:id="lblUserName" styleClass="lbl-txt"/>
+            <TextField fx:id="tfUserName" styleClass="text-field-input"/>
+        </VBox>
+        <VBox>
+            <Label fx:id="lblFirstName" styleClass="lbl-txt"/>
+            <TextField fx:id="tfFirstName" styleClass="text-field-input"/>
+        </VBox>
+        <VBox>
+            <Label fx:id="lblLastName" styleClass="lbl-txt"/>
+            <TextField fx:id="tfLastName" styleClass="text-field-input"/>
+        </VBox>
+        <VBox>
+            <Label fx:id="lblEmail" styleClass="lbl-txt"/>
+            <TextField fx:id="tfEmail" styleClass="text-field-input"/>
+        </VBox>
+        <VBox>
+            <Label fx:id="lblPhone" styleClass="lbl-txt"/>
+            <TextField fx:id="tfPhone" styleClass="text-field-input"/>
+        </VBox>
+        <HBox fx:id="hbPasswordCheck" alignment="CENTER_LEFT" spacing="10">
+            <Label fx:id="lblChangePassword" styleClass="lbl-txt"/>
+            <CheckBox fx:id="cbChangePassword"/>
+        </HBox>
+        <VBox fx:id="vbPassword">
+            <Label fx:id="lblPassword" styleClass="lbl-txt"/>
+            <PasswordField fx:id="pfPassword" styleClass="password-field"/>
+        </VBox>
+        <VBox fx:id="vbPasswordConfirm" spacing="10">
+            <Label fx:id="lblPasswordConfirm" styleClass="lbl-txt"/>
+            <PasswordField fx:id="pfPasswordConfirm" styleClass="password-field"/>
+        </VBox>
+        <VBox>
+            <Label fx:id="lblError" styleClass="lbl-error"/>
+        </VBox>
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button fx:id="btnAction" styleClass="create-button">
+                <graphic>
+                    <FontIcon iconLiteral="fas-save" iconSize="20"/>
+                </graphic>
+            </Button>
+            <Button fx:id="btnRefresh" styleClass="update-button">
+                <graphic>
+                    <FontIcon iconLiteral="fas-sync" iconSize="20"/>
+                </graphic>
+            </Button>
+        </HBox>
+    </VBox>
+</AnchorPane>

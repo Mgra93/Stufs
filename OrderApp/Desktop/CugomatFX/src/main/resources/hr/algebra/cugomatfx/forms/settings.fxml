@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="hr.algebra.cugomatfx.controllers.SettingsController"
+            prefHeight="600" prefWidth="900">
+    <top>
+        <Label fx:id="lblTitle" styleClass="lbl-title"/>
+    </top>
+    <center>
+        <HBox spacing="80" fillHeight="false">
+            <VBox spacing="20" styleClass="card" prefWidth="400">
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="fas-building" iconSize="28" styleClass="icon"/>
+                    <Label fx:id="lblClientInfo" styleClass="section-title"/>
+                </HBox>
+                <VBox spacing="12" styleClass="info-list">
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon iconLiteral="fas-tag" iconSize="18" styleClass="icon-small"/>
+                        <Label fx:id="lblClientName" styleClass="lbl-txt"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon iconLiteral="fas-barcode" iconSize="18" styleClass="icon-small"/>
+                        <Label fx:id="lblClientCode" styleClass="lbl-txt"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon iconLiteral="fas-map-marker-alt" iconSize="18" styleClass="icon-small"/>
+                        <Label fx:id="lblClientAddress" styleClass="lbl-txt"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon iconLiteral="fas-phone" iconSize="18" styleClass="icon-small"/>
+                        <Label fx:id="lblClientPhone" styleClass="lbl-txt"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon iconLiteral="fas-id-card" iconSize="18" styleClass="icon-small"/>
+                        <Label fx:id="lblClientOib" styleClass="lbl-txt"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon iconLiteral="fas-globe" iconSize="18" styleClass="icon-small"/>
+                        <Label fx:id="lblClientWeb" styleClass="lbl-txt" wrapText="true" maxWidth="300"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <VBox spacing="20" styleClass="card" prefWidth="400">
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="fas-user" iconSize="28" styleClass="icon"/>
+                    <Label fx:id="lblUserInfo" styleClass="section-title"/>
+                </HBox>
+                <VBox spacing="12" styleClass="info-list">
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon iconLiteral="fas-id-badge" iconSize="18" styleClass="icon-small"/>
+                        <Label fx:id="lblUserFullName" styleClass="lbl-txt"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon iconLiteral="fas-envelope" iconSize="18" styleClass="icon-small"/>
+                        <Label fx:id="lblUserEmail" styleClass="lbl-txt"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon iconLiteral="fas-phone" iconSize="18" styleClass="icon-small"/>
+                        <Label fx:id="lblUserPhone" styleClass="lbl-txt"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon iconLiteral="fas-user" iconSize="18" styleClass="icon-small"/>
+                        <Label fx:id="lblUserUsername" styleClass="lbl-txt"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <VBox spacing="20" styleClass="card" fx:id="vbLicence" visible="false" prefWidth="400">
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <FontIcon iconLiteral="fas-certificate" iconSize="28" styleClass="icon"/>
+                    <Label fx:id="lblLicenceInfo" styleClass="section-title"/>
+                </HBox>
+                <VBox spacing="12" styleClass="info-list">
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon fx:id="fiStatus" iconLiteral="fas-circle" iconSize="14" styleClass="icon-status-active"/>
+                        <Label fx:id="lblClientStatus" styleClass="lbl-txt"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon iconLiteral="fas-hourglass-half" iconSize="14" styleClass="icon-small"/>
+                        <Label fx:id="lblDateLicence" styleClass="lbl-txt"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon iconLiteral="fas-key" iconSize="14" styleClass="icon-small"/>
+                        <TextField fx:id="tfLocationSecret" styleClass="lbl-txt"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon iconLiteral="fas-star" iconSize="14" styleClass="icon-small"/>
+                        <CheckBox fx:id="cbVipDayActive" styleClass="lbl-txt"/>
+                    </HBox>
+                    <HBox spacing="10" alignment="BASELINE_LEFT">
+                        <FontIcon iconLiteral="fas-calendar-alt" iconSize="14" styleClass="icon-small"/>
+                        <ComboBox fx:id="cbVipDayCode" styleClass="lbl-txt"/>
+                        <Button fx:id="btnUpdate" styleClass="update-button">
+                            <graphic>
+                                <FontIcon iconLiteral="fas-save" iconSize="16"/>
+                            </graphic>
+                        </Button>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>

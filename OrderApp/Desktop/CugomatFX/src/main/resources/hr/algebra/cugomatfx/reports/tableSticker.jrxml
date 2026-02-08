@@ -1,0 +1,67 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="TableSticker" language="java" columnCount="1" pageWidth="283" pageHeight="283" orientation="Landscape" columnWidth="283" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e788e426-618c-4fa4-8e31-3326df8cb1f6">
+	<parameter name="TXT_TABLE" class="java.lang.String"/>
+	<parameter name="TABLE_CODE" class="java.lang.String"/>
+	<parameter name="WEB_URL" class="java.lang.String"/>
+	<parameter name="QR_DATA" class="java.lang.String"/>
+	<parameter name="LOGO" class="java.awt.Image"/>
+	<parameter name="TXT_SCAN" class="java.lang.String"/>
+	<parameter name="TXT_VISIT" class="java.lang.String"/>
+	<parameter name="BACKGROUND" class="java.awt.Image"/>
+	<query language="sql"><![CDATA[]]></query>
+	<background splitType="Stretch"/>
+	<detail>
+		<band height="283" splitType="Stretch">
+			<element kind="image" uuid="c415942a-93a8-45e7-beed-0b3fd33d4bac" mode="Transparent" x="0" y="0" width="283" height="283" scaleImage="FillFrame">
+				<expression><![CDATA[$P{BACKGROUND}]]></expression>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="component" uuid="0d9ed244-e785-42b9-ae5a-f63fb7103079" mode="Opaque" x="30" y="110" width="105" height="105">
+				<component kind="barcode4j:QRCode">
+					<codeExpression><![CDATA[$P{QR_DATA}]]></codeExpression>
+				</component>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			</element>
+			<element kind="textField" uuid="79ac2ec3-86c9-419c-9db1-4edbfbff0508" x="145" y="130" width="105" height="85" forecolor="#FFFFFF" backcolor="#030000" fontName="SansSerif" fontSize="64.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{TABLE_CODE}]]></expression>
+				<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			</element>
+			<element kind="textField" uuid="9dd48e42-e12c-493a-a417-064a2b1d9d3a" x="50" y="215" width="180" height="40" forecolor="#FFFFFF" fontName="SansSerif" fontSize="8.0" italic="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{WEB_URL}]]></expression>
+				<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="textField" uuid="9f533848-64bc-4682-a17e-d581338f5477" x="145" y="110" width="105" height="20" forecolor="#FFFFFF" fontName="SansSerif" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{TXT_TABLE}]]></expression>
+				<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			</element>
+			<element kind="textField" uuid="6f8f9816-122b-40a3-a4d1-952096c1a8a1" x="30" y="65" width="220" height="40" forecolor="#FFFFFF" fontName="SansSerif" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{TXT_SCAN}]]></expression>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			</element>
+			<element kind="image" uuid="1fcd9eb8-b869-4296-bfba-4718ff628b2d" x="110" y="5" width="60" height="60" scaleImage="FillFrame">
+				<expression><![CDATA[$P{LOGO}]]></expression>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			</element>
+			<element kind="ellipse" uuid="58cfd06c-b058-4907-95d7-199d7163627c" mode="Transparent" x="0" y="0" width="283" height="283" forecolor="#FFFFFF">
+				<pen lineWidth="3.0"/>
+			</element>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</detail>
+</jasperReport>

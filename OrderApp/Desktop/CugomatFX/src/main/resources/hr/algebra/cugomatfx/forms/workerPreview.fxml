@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="hr.algebra.cugomatfx.controllers.WorkerPreviewController"
+            prefHeight="600" prefWidth="900">
+    <top>
+        <Label fx:id="lblTitle" styleClass="lbl-title"/>
+    </top>
+    <center>
+        <SplitPane dividerPositions="0.8">
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="15" right="15" bottom="15" left="15" />
+                </padding>
+                <VBox spacing="5" VBox.vgrow="ALWAYS">
+                    <HBox spacing="10">
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="btnCreateView" styleClass="create-button"/>
+                        <Button fx:id="btnUpdateView" styleClass="update-button"/>
+                        <Button fx:id="btnDelete" styleClass="delete-button"/>
+                    </HBox>
+                    <TableView fx:id="tvWorker" styleClass="table-style" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colUsername"/>
+                            <TableColumn fx:id="colFirstName"/>
+                            <TableColumn fx:id="colLastName"/>
+                            <TableColumn fx:id="colEmail"/>
+                            <TableColumn fx:id="colPhone"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </VBox>
+            <StackPane fx:id="spContent"/>
+        </SplitPane>
+    </center>
+</BorderPane>

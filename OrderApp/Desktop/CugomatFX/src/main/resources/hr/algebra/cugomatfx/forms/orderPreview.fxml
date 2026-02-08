@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="hr.algebra.cugomatfx.controllers.OrderPreviewController"
+            prefHeight="600" prefWidth="900">
+    <top>
+        <Label fx:id="lblTitle" styleClass="lbl-title"/>
+    </top>
+    <center>
+        <SplitPane dividerPositions="0.75">
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="15" right="15" bottom="15" left="15" />
+                </padding>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <HBox spacing="10">
+                        <Label fx:id="lblDate" styleClass="lbl-txt"/>
+                        <DatePicker fx:id="dpDate"/>
+                        <Label fx:id="lblWorker" styleClass="lbl-txt"/>
+                        <ComboBox fx:id="cbWorker" styleClass="combo-box-style"/>
+                        <Label fx:id="lblStatus" styleClass="lbl-txt"/>
+                        <ComboBox fx:id="cbStatus" styleClass="combo-box-style"/>
+                        <Label fx:id="lblUser" styleClass="lbl-txt"/>
+                        <TextField fx:id="tfUser" styleClass="text-field-input"/>
+                        <Button fx:id="btnRefresh" styleClass="update-button">
+                            <graphic>
+                                <FontIcon iconLiteral="fas-sync" iconSize="16"/>
+                            </graphic>
+                        </Button>
+                    </HBox>
+                </HBox>
+                <TableView fx:id="tvOrders" styleClass="table-style" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colTableCode"/>
+                        <TableColumn fx:id="colCreatedOn"/>
+                        <TableColumn fx:id="colTotalPrice"/>
+                        <TableColumn fx:id="colHasDiscount"/>
+                        <TableColumn fx:id="colFinalPrice"/>
+                        <TableColumn fx:id="colUser"/>
+                        <TableColumn fx:id="colWorker"/>
+                        <TableColumn fx:id="colStatus"/>
+                    </columns>
+                </TableView>
+            </VBox>
+            <VBox spacing="5">
+                <padding>
+                    <Insets top="15" right="15" bottom="15" left="15" />
+                </padding>
+                <Label fx:id="lblProductList" styleClass="lbl-title"/>
+                <TableView fx:id="tvProducts" styleClass="table-style">
+                    <columns>
+                        <TableColumn fx:id="colProductCategory"/>
+                        <TableColumn fx:id="colProductName"/>
+                        <TableColumn fx:id="colProductPrice"/>
+                        <TableColumn fx:id="colProductQuantity"/>
+                    </columns>
+                </TableView>
+                <HBox spacing="10">
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="lblTotalPriceTxt" styleClass="lbl-txt" visible="false"/>
+                    <Label fx:id="lblTotalPrice" styleClass="lbl-txt" visible="false"/>
+                </HBox>
+            </VBox>
+        </SplitPane>
+    </center>
+</BorderPane>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="hr.algebra.cugomatfx.controllers.LoginController"
+           styleClass="stack-pane-background"
+           prefWidth="400" prefHeight="450"
+           stylesheets="@../css/style.css">
+    <VBox alignment="CENTER" spacing="20">
+        <Label fx:id="lblTitle" styleClass="lbl-title" />
+        <VBox alignment="CENTER" styleClass="login-box">
+            <Label fx:id="lblUserName" styleClass="lbl-txt" />
+            <TextField fx:id="tfUserName" styleClass="text-field-input"/>
+            <Label fx:id="lblPassword" styleClass="lbl-txt" />
+            <PasswordField fx:id="pfPassword" styleClass="password-field"/>
+            <Button fx:id="btnLogIn" styleClass="btn-blue"/>
+            <HBox alignment="CENTER" spacing="10">
+                <Label fx:id="lblLanguage" styleClass="lbl-txt"/>
+                <ComboBox fx:id="cbLanguage" prefWidth="70" styleClass="combo-box-style"/>
+            </HBox>
+            <Hyperlink fx:id="hlPassword" styleClass="hyper-link" />
+            <Label fx:id="lblError" styleClass="lbl-error" />
+        </VBox>
+    </VBox>
+</StackPane>

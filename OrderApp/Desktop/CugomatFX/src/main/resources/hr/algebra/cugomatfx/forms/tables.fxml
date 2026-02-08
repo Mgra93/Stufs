@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="hr.algebra.cugomatfx.controllers.TableController"
+            prefWidth="800" prefHeight="600"
+            stylesheets="@../css/style.css">
+    <left>
+        <VBox prefWidth="350.0" spacing="10.0" style="-fx-padding: 10;" VBox.vgrow="ALWAYS">
+            <Label fx:id="lblTitle" styleClass="lbl-title"/>
+            <Separator />
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Label fx:id="lblActiveOrders" styleClass="lbl-txt" />
+                <Label fx:id="lblOrderCounter" styleClass="lbl-count" />
+            </HBox>
+            <Separator />
+            <Label fx:id="lblDrinks" styleClass="lbl-mini-title"/>
+            <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS">
+                <ListView fx:id="lvProducts" VBox.vgrow="ALWAYS" styleClass="list-style"/>
+            </ScrollPane>
+        </VBox>
+    </left>
+    <center>
+        <VBox spacing="10.0" style="-fx-padding: 10;" VBox.vgrow="ALWAYS">
+            <HBox spacing="10.0" VBox.vgrow="NEVER" prefHeight="300">
+                <VBox fx:id="vbInsideArea" styleClass="inside-area" HBox.hgrow="ALWAYS">
+                    <Label fx:id="lblOutdoor" styleClass="lbl-mini-title"/>
+                    <GridPane fx:id="gpInside" hgap="10" vgap="10" alignment="CENTER"/>
+                </VBox>
+                <VBox fx:id="vbOutsideArea" styleClass="outside-area" HBox.hgrow="ALWAYS">
+                    <Label fx:id="lblIndoor" styleClass="lbl-mini-title"/>
+                    <GridPane fx:id="gpOutside" hgap="10" vgap="10" alignment="CENTER"/>
+                </VBox>
+                <VBox spacing="10" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                    <VBox fx:id="vbBarAreaOne" styleClass="bar-area">
+                        <Label fx:id="lblBarOne" styleClass="lbl-mini-title" />
+                        <GridPane fx:id="gpBarOne" hgap="10" vgap="10" alignment="CENTER"/>
+                    </VBox>
+                    <VBox fx:id="vbBarAreaTwo" styleClass="bar-area">
+                        <Label fx:id="lblBarTwo" styleClass="lbl-mini-title" />
+                        <GridPane fx:id="gpBarTwo" hgap="10" vgap="10" alignment="CENTER"/>
+                    </VBox>
+                    <Region VBox.vgrow="ALWAYS"/>
+                    <GridPane fx:id="gpOrderData" visible="false" hgap="40" vgap="10">
+                        <HBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                            <Label fx:id="lblTableCodeTxt" styleClass="lbl-txt"/>
+                            <Label fx:id="lblTableCode" styleClass="lbl-txt"/>
+                        </HBox>
+                        <HBox spacing="5" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                            <Label fx:id="lblUserNameTxt" styleClass="lbl-txt"/>
+                            <Label fx:id="lblUserName" styleClass="lbl-txt"/>
+                        </HBox>
+                        <HBox spacing="5" GridPane.rowIndex="2" GridPane.columnIndex="0">
+                            <Label fx:id="lblCreatedOnTxt" styleClass="lbl-txt"/>
+                            <Label fx:id="lblCreatedOn" styleClass="lbl-txt"/>
+                        </HBox>
+                        <HBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                            <Label fx:id="lblTotalPriceTxt" styleClass="lbl-txt"/>
+                            <Label fx:id="lblTotalPrice" styleClass="lbl-txt"/>
+                        </HBox>
+                        <HBox spacing="5" GridPane.rowIndex="1" GridPane.columnIndex="1" alignment="CENTER_LEFT">
+                            <Label fx:id="lblDiscountTxt" styleClass="lbl-txt"/>
+                            <FontIcon fx:id="fiDiscount" iconLiteral="fas-circle" iconSize="14" styleClass="icon-status-active"/>
+                        </HBox>
+
+                        <HBox spacing="5" GridPane.rowIndex="2" GridPane.columnIndex="1"  alignment="CENTER_LEFT">
+                            <Label fx:id="lblFinalPriceTxt" styleClass="lbl-txt"/>
+                            <Label fx:id="lblFinalPrice" styleClass="lbl-txt"/>
+                        </HBox>
+                    </GridPane>
+                    <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10;">
+                        <Button fx:id="btnSticker" prefWidth="200.0" styleClass="update-button" HBox.hgrow="ALWAYS"/>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnReject" prefWidth="150.0" styleClass="delete-button" HBox.hgrow="NEVER"/>
+                        <Button fx:id="btnComplete" prefWidth="150.0" styleClass="create-button" HBox.hgrow="NEVER"/>
+                    </HBox>
+                </VBox>
+            </HBox>
+            <HBox spacing="10.0" VBox.vgrow="ALWAYS">
+                <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                    <Label fx:id="lblOrders" styleClass="lbl-mini-title"/>
+                    <TableView fx:id="tvOrders" styleClass="table-style" prefHeight="200" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colTable"/>
+                            <TableColumn fx:id="colItems"/>
+                            <TableColumn fx:id="colCreated"/>
+                            <TableColumn fx:id="colUser"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+                <VBox spacing="12" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                    <Label fx:id="lblProduct" styleClass="lbl-mini-title"/>
+                    <TableView fx:id="tvProducts" styleClass="table-style">
+                        <columns>
+                            <TableColumn fx:id="colProductName"/>
+                            <TableColumn fx:id="colProductPrice"/>
+                            <TableColumn fx:id="colProductQuantity"/>
+                            <TableColumn fx:id="colTotalProductPrice"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
